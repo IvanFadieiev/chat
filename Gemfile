@@ -46,3 +46,5 @@ group :development do
 end
 
 gem 'bootstrap-generators', '~> 3.3.4'
+gem 'quiet_assets', group: :development
+gem 'devise'
