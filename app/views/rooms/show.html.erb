@@ -1,9 +1,44 @@
-<p id="notice"><%= notice %></p>
+<div class="page-header">
+  <%= link_to rooms_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_room_path(@room), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1><%= @room.name %></h1>
+</div>
+<div class="chat" id='chat'>
+  <% @messages.each do |msg| %>
+    <div class='msg'>
+      <%= msg.user.try(:login) %>
+      <%= msg.body %><br>
+    </div>
+  <% end %>
+</div>
+<dl class="dl-horizontal">
+  <%= form_for @message do |f| %>
+    <%= f.hidden_field :room_id, value: @room.id %>
+    <%= f.text_field :body %>
+    <%= f.submit 'Send', id: 'send_button' %>
+  <% end %>
+</dl>
 
-<p>
-  <strong>Name:</strong>
-  <%= @room.name %>
-</p>
 
-<%= link_to 'Edit', edit_room_path(@room) %> |
-<%= link_to 'Back', rooms_path %>
+<script>
+    $('#send_button').on('click', function(event){
+        event.preventDefault();
+        var data = $('#new_message').serialize()
+        $.ajax({
+            url: '/messages',
+            method: 'POST',
+            data: data,
+            success: function(data){
+              console.log(data.message)
+                console.log(data.user)
+              $('#chat').append(data.message.body)
+          }
+        })
+    })
+</script>
