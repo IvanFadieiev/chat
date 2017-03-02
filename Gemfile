@@ -49,3 +49,4 @@ gem 'bootstrap-generators', '~> 3.3.4'
 gem 'quiet_assets', group: :development
 gem 'devise'
 gem "twitter-bootstrap-rails"
+gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"

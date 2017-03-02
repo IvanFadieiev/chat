@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302171817) do
+ActiveRecord::Schema.define(version: 20170302215349) do
 
   create_table "messages", force: :cascade do |t|
     t.text     "body"
@@ -45,6 +45,10 @@ ActiveRecord::Schema.define(version: 20170302171817) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
