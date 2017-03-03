@@ -1,0 +1,11 @@
+<tr>
+  <td><%= image_tag message.user.try(:avatar).try(:url, :small)%></td>
+  <td><%= message.user.try(:login) %></td>
+  <td><%= message.body %></td>
+
+  <td>
+    <% if can? :delete, message %>
+      <button class="delete_msg" id="<%=message.id%>" href="<%=message_path(message.id)%>">Delete</button>
+    <% end %>
+  </td>
+</tr>

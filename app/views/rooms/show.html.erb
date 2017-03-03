@@ -9,14 +9,24 @@
   <% end %>
   <h1><%= @room.name %></h1>
 </div>
-<div class="chat" id='chat'>
-  <% @messages.each do |msg| %>
-    <div class='msg'>
-      <%= msg.user.try(:login) %>
-      <%= msg.body %><br>
-    </div>
-  <% end %>
-</div>
+
+  <div class="table-responsive" id='chat'>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+      <tr>
+        <th></th>
+        <th>login</th>
+        <th>body</th>
+        <th>delete</th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <%= render :partial => 'message', collection: @messages %>
+      </tbody>
+    </table>
+  </div>
+
 <dl class="dl-horizontal">
   <%= form_for @message do |f| %>
     <%= f.hidden_field :room_id, value: @room.id %>
@@ -24,21 +34,3 @@
     <%= f.submit 'Send', id: 'send_button' %>
   <% end %>
 </dl>
-
-
-<script>
-    $('#send_button').on('click', function(event){
-        event.preventDefault();
-        var data = $('#new_message').serialize()
-        $.ajax({
-            url: '/messages',
-            method: 'POST',
-            data: data,
-            success: function(data){
-              console.log(data.message)
-                console.log(data.user)
-              $('#chat').append(data.message.body)
-          }
-        })
-    })
-</script>

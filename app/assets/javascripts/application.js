@@ -13,6 +13,45 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require bootstrap
 //= require_tree .
+
+$(document).on('click', '.delete_msg', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var url = $(this).attr('href') + '/';
+    var line = $(this).closest('tr');
+    $.ajax({
+        url: url,
+        method: 'DELETE',
+        success: function(result){
+            $(line).fadeOut();
+        }
+    });
+    e.preventDefault();
+    e.stopPropagation();
+});
+
+$(document).ready(function(){
+    $('#send_button').on('click', function(event){
+        event.preventDefault();
+        var data = $('#new_message').serialize();
+        $.ajax({
+            url: '/messages',
+            method: 'POST',
+            data: data,
+            success: function(data){
+                var msg_id = data.message.id;
+                $.ajax({
+                    url: '/get_message',
+                    method: 'GET',
+                    data: {message_id: msg_id},
+                    success: function(data){
+                        $('table').append(data);
+                        $('#message_body').val('');
+                    }
+                })
+            }
+        })
+    })
+});
